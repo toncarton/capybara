@@ -123,6 +123,7 @@ module Capybara
     #
     def reset!
       if @touched
+        clear_storage if @server && Capybara.clear_storage_on_reset
         driver.reset!
         @touched = false
       end
@@ -242,31 +243,7 @@ module Capybara
     def visit(visit_uri)
       raise_server_error!
       @touched = true
-
-      visit_uri = ::Addressable::URI.parse(visit_uri.to_s)
-
-      base = config.app_host
-      base ||= "http#{'s' if @server.using_ssl?}://#{@server.host}:#{@server.port}" if @server
-
-      uri_base = ::Addressable::URI.parse(base)
-
-      if uri_base && [nil, 'http', 'https'].include?(visit_uri.scheme)
-        if visit_uri.relative?
-          uri_base.port ||= @server.port if @server && config.always_include_port
-
-          visit_uri_parts = visit_uri.to_hash.delete_if { |_k, v| v.nil? }
-
-          # Useful to people deploying to a subdirectory
-          # and/or single page apps where only the url fragment changes
-          visit_uri_parts[:path] = uri_base.path + visit_uri.path
-
-          visit_uri = uri_base.merge(visit_uri_parts)
-        elsif @server && config.always_include_port
-          visit_uri.port ||= @server.port
-        end
-      end
-
-      driver.visit(visit_uri.to_s)
+      driver.visit(computed_uri(visit_uri).to_s)
     end
 
     ##
@@ -842,6 +819,43 @@ module Capybara
         Capybara::Node::Element.new(self, arg, nil, nil)
       else
         arg
+      end
+    end
+
+    def computed_uri(visit_uri)
+      visit_uri = ::Addressable::URI.parse(visit_uri.to_s)
+
+      base = config.app_host
+      base ||= "http#{'s' if @server.using_ssl?}://#{@server.host}:#{@server.port}" if @server
+
+      uri_base = ::Addressable::URI.parse(base)
+
+      if uri_base && [nil, 'http', 'https'].include?(visit_uri.scheme)
+        if visit_uri.relative?
+          uri_base.port ||= @server.port if @server && config.always_include_port
+
+          visit_uri_parts = visit_uri.to_hash.delete_if { |_k, v| v.nil? }
+
+          # Useful to people deploying to a subdirectory
+          # and/or single page apps where only the url fragment changes
+          visit_uri_parts[:path] = uri_base.path + visit_uri.path
+
+          visit_uri = uri_base.merge(visit_uri_parts)
+        elsif @server && config.always_include_port
+          visit_uri.port ||= @server.port
+        end
+      end
+    end
+
+    def clear_storage
+      if
+        begin
+          driver.clear_storage do
+            driver.visit(computed_uri("/__clear_storage__"))
+          end
+        rescue => e
+          warn "Session storage may not have been cleared due to #{e.message}"
+        end
       end
     end
 

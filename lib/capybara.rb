@@ -23,6 +23,7 @@ module Capybara
   class ReadOnlyElementError < CapybaraError; end
 
   class << self
+<<<<<<< HEAD
     extend Forwardable
 
     # DelegateCapybara global configurations
@@ -83,7 +84,9 @@ module Capybara
     # [threadsafe = Boolean]  Whether sessions can be configured individually (Default: false)
     # [server = Symbol]  The name of the registered server to use when running the app under test (Default: :webrick)
     # [default_set_options = Hash]  The default options passed to Node::set (Default: {})
+    # [clear_storage_on_reset = Boolean]  Clear localStorage and sessionStorage when session is reset (Default: false)
     #
+
     # === DSL Options
     #
     # when using capybara/dsl, the following options are also available:
@@ -482,6 +485,7 @@ Capybara.configure do |config|
   config.enable_aria_label = false
   config.reuse_server = true
   config.default_set_options = {}
+  config.clear_storage_on_reset = false
 end
 
 Capybara.register_driver :rack_test do |app|

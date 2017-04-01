@@ -31,6 +31,7 @@ module Capybara
         Capybara.enable_aria_label = false
         Capybara.default_set_options = {}
         Capybara.disable_animation = false
+        Capybara.clear_storage_on_reset = true
         reset_threadsafe
       end
 

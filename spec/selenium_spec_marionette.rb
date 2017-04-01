@@ -101,6 +101,12 @@ RSpec.describe Capybara::Selenium::Driver do
 
   context "storage" do
     describe "#reset!" do
+      before do
+        # TODO: remove these tests
+        # only test the driver resetting
+        Capybara.clear_storage_on_reset = false
+      end
+
       it "does not clear either storage by default" do
         @session = TestSessions::SeleniumMarionette
         @session.visit('/with_js')
