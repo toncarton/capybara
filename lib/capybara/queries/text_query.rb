@@ -78,7 +78,9 @@ module Capybara
         if invisible_count != @count
           "it was found #{invisible_count} #{Capybara::Helpers.declension('time', 'times', invisible_count)} including non-visible text"
         end
-      rescue # An error getting the non-visible text (if element goes out of scope) should not affect the response
+      rescue StandardError
+        # An error getting the non-visible text (if element goes out of scope) should not affect the response
+        ""
       end
 
       def valid_keys

@@ -90,12 +90,13 @@ class Capybara::Selenium::Node < Capybara::Driver::Node
         end
       end
     end
-  rescue => e
+  rescue StandardError => e
     if e.is_a?(::Selenium::WebDriver::Error::ElementClickInterceptedError) ||
        e.message =~ /Other element would receive the click/
       begin
         driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center', inline: 'center'})", self)
-      rescue # Swallow error if scrollIntoView with options isn't supported
+      rescue StandardError # rubocop:disable Lint/HandleExceptions
+        # Swallow error if scrollIntoView with options isn't supported
       end
     end
     raise e

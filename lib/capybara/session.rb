@@ -878,7 +878,7 @@ module Capybara
               driver.switch_to_window handle
               return Window.new(self, handle) if yield
             end
-          rescue => e
+          rescue StandardError => e
             driver.switch_to_window(original_window_handle)
             raise e
           else

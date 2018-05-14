@@ -97,10 +97,9 @@ module Capybara
 
       if @query.options[:maximum]
         max_opt = Integer(@query.options[:maximum])
-        begin
-          @result_cache << @results_enum.next while @result_cache.size <= max_opt
-          return 1
-        rescue StopIteration
+        loop do
+          return 1 if @result_cache.size > max_opt
+          @result_cache << @results_enum.next
         end
       end
 
