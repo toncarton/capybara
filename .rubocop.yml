@@ -79,14 +79,11 @@ Style/SingleLineMethods:
 Style/StringLiterals:
   Enabled: false
 
-# Style/RegexpLiteral:
+# Style/RescueModifier:
 #   Enabled: false
-
-Style/RescueModifier:
-  Enabled: false
-
-Style/Alias:
-  Enabled: false
+#
+# Style/Alias:
+#   Enabled: false
 
 Style/AndOr:
   Enabled: false
