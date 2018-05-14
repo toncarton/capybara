@@ -21,7 +21,7 @@ class Capybara::Selenium::Node < Capybara::Driver::Node
   end
 
   def value
-    if tag_name == "select" and multiple?
+    if tag_name == "select" && multiple?
       native.find_elements(:css, "option:checked").map { |n| n[:value] || n.text }
     else
       native[:value]
@@ -199,7 +199,7 @@ class Capybara::Selenium::Node < Capybara::Driver::Node
 private
 
   def boolean_attr(val)
-    val and val != "false"
+    val && (val != "false")
   end
 
   # a reference to the select node if this is an option node

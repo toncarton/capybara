@@ -57,8 +57,8 @@ module Capybara
         message << " in #{@actual_text.inspect}"
 
         details_message = []
-        details_message << case_insensitive_message if @node and !@expected_text.is_a? Regexp
-        details_message << invisible_message if @node and check_visible_text? and report_on_invisible
+        details_message << case_insensitive_message if @node && !@expected_text.is_a?(Regexp)
+        details_message << invisible_message if @node && check_visible_text? && report_on_invisible
         details_message.compact!
 
         message << ". (However, #{details_message.join(' and ')}.)" unless details_message.empty?

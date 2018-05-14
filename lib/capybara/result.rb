@@ -114,7 +114,7 @@ module Capybara
         return 1
       end
 
-      return 0
+      0
     end
 
     def matches_count?
@@ -129,7 +129,7 @@ module Capybara
         message << ", found #{count} #{Capybara::Helpers.declension('match', 'matches', count)}: " << full_results.map(&:text).map(&:inspect).join(", ")
       end
       unless rest.empty?
-        elements = rest.map { |el| el.text rescue "<<ERROR>>" }.map(&:inspect).join(", ")
+        elements = rest.map { |el| el.text rescue "<<ERROR>>" }.map(&:inspect).join(", ") # rubocop:disable Style/RescueModifier
         message << ". Also found " << elements << ", which matched the selector but not all filters."
       end
       message

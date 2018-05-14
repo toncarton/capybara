@@ -83,7 +83,7 @@ module Capybara
         raise "A configuration block is only accepted when Capybara.threadsafe == true" unless Capybara.threadsafe
         yield config
       end
-      @server = if config.run_server and @app and driver.needs_server?
+      @server = if config.run_server && @app && driver.needs_server?
         Capybara::Server.new(@app, port: config.server_port, host: config.server_host, reportable_errors: config.server_errors).boot
       else
         nil

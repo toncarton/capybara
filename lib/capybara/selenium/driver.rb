@@ -339,6 +339,7 @@ private
         warn "sessionStorage clear requested but is not available for this driver"
       end
     end
+
     if options[:clear_local_storage]
       if @browser.respond_to? :local_storage
         @browser.local_storage.clear

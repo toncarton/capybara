@@ -79,16 +79,13 @@ Style/SingleLineMethods:
 Style/StringLiterals:
   Enabled: false
 
-# Style/RescueModifier:
-#   Enabled: false
-#
-# Style/Alias:
-#   Enabled: false
-
-Style/AndOr:
+Style/Alias:
   Enabled: false
 
 Style/Documentation:
+  Exclude:
+    - 'lib/capybara/spec/**/*'
+    - 'spec/**/*'
   Enabled: false
 
 Style/DoubleNegation:
@@ -102,9 +99,6 @@ Style/GuardClause:
 
 Style/EmptyElse:
   EnforcedStyle: empty
-
-Style/RedundantReturn:
-  Enabled: false
 
 Style/ClassAndModuleChildren:
   Enabled: false
