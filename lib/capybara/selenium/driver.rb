@@ -137,7 +137,7 @@ class Capybara::Selenium::Driver < Capybara::Driver::Base
         # can trigger an endless series of unload modals
         begin
           @browser.manage.delete_all_cookies
-          clear_storage
+          deprecated_clear_storage
         # rescue Selenium::WebDriver::Error::NoSuchAlertError
         #   # Handle a bug in Firefox/Geckodriver where it thinks it needs an alert modal to exist
         #   # for no good reason
@@ -302,6 +302,24 @@ class Capybara::Selenium::Driver < Capybara::Driver::Base
 
 private
 
+  def deprecated_clear_storage
+    if options[:clear_session_storage]
+      if @browser.respond_to? :session_storage
+        @browser.session_storage.clear
+      else
+        warn "sessionStorage clear requested but is not available for this driver"
+      end
+    end
+
+    if options[:clear_local_storage]
+      if @browser.respond_to? :local_storage
+        @browser.local_storage.clear
+      else
+        warn "localStorage clear requested but is not available for this driver"
+      end
+    end
+  end
+
   def marionette?
     firefox? && browser && @w3c
   end
@@ -328,24 +346,6 @@ private
 
   def native_args(args)
     args.map { |arg| arg.is_a?(Capybara::Selenium::Node) ? arg.native : arg }
-  end
-
-  def clear_storage
-    if options[:clear_session_storage]
-      if @browser.respond_to? :session_storage
-        @browser.session_storage.clear
-      else
-        warn "sessionStorage clear requested but is not available for this driver"
-      end
-    end
-
-    if options[:clear_local_storage]
-      if @browser.respond_to? :local_storage
-        @browser.local_storage.clear
-      else
-        warn "localStorage clear requested but is not available for this driver"
-      end
-    end
   end
 
   def modal_error

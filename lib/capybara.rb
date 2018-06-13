@@ -23,7 +23,6 @@ module Capybara
   class ReadOnlyElementError < CapybaraError; end
 
   class << self
-<<<<<<< HEAD
     extend Forwardable
 
     # DelegateCapybara global configurations
