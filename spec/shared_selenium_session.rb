@@ -95,12 +95,10 @@ RSpec.shared_examples 'Capybara::Session' do |session, mode|
 
       it 'should fill in a field, replacing an existing value, even with caret position' do
         session.visit('/form')
-        el = session.find(:css, '#form_first_name')
-        move_caret_to_the_beginning_js = <<-JS
+        session.find(:css, '#form_first_name').execute_script <<-JS
           this.focus();
           this.setSelectionRange(0, 0);
         JS
-        el.execute_script(move_caret_to_the_beginning_js)
 
         session.fill_in('form_first_name',
                         with: 'Harry',
@@ -159,8 +157,7 @@ RSpec.shared_examples 'Capybara::Session' do |session, mode|
     context  '#fill_in with Date' do
       before do
         session.visit('/form')
-        fd = session.find(:css, '#form_date')
-        fd.execute_script <<-JS
+        session.find(:css, '#form_date').execute_script <<-JS
           window.capybara_formDateFiredEvents = [];
           var fd = this;
           ['focus', 'input', 'change'].forEach(function(eventType) {
