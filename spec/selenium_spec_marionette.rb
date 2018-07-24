@@ -62,6 +62,9 @@ Capybara::SpecHelper.run_specs TestSessions::SeleniumMarionette, 'selenium', cap
     skip 'Firefox insists on prompting without providing a way to suppress'
   when 'Capybara::Session selenium #accept_prompt should accept the prompt with a blank response when there is a default'
     pending "Geckodriver doesn't set a blank response currently"
+  when 'Capybara::Session selenium #attach_file with multipart form should fire change once for each set of files uploaded'
+    pending 'Gekcodriver appends files so we have to first call clear for multiple files which creates an extra change ' \
+            'if files are already set'
   end
 end
 
