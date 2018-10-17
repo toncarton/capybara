@@ -10,6 +10,7 @@ spec.opts
 .rvmrc
 .ruby-version
 .ruby-gemset
+.java-version
 capybara-*.html
 .yardoc
 doc

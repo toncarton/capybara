@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Capybara
+  module DSL; end
+
   module RSpecMatcherProxies
     def all(*args, &block)
       if defined?(::RSpec::Matchers::BuiltIn::All) && args.first.respond_to?(:matches?)
@@ -54,8 +56,8 @@ module Capybara
   DSL.prepend ::Capybara::DSLRSpecProxyInstaller
 end
 
-if defined?(::RSpec::Matchers)
-  module ::RSpec::Matchers
+module RSpec
+  module Matchers
     prepend ::Capybara::RSpecMatcherProxyInstaller
   end
 end
