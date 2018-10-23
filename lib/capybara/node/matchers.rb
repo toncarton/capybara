@@ -186,10 +186,12 @@ module Capybara
         selector = extract_selector(args)
         synchronize(wait) do
           res = args.map do |locator|
-            assert_selector(selector, locator, options, &optional_filter_block)
-            break nil
-          rescue Capybara::ExpectationNotMet => e
-            e.message
+            begin
+              assert_selector(selector, locator, options, &optional_filter_block)
+              break nil
+            rescue Capybara::ExpectationNotMet => e
+              e.message
+            end
           end
           raise Capybara::ExpectationNotMet, res.join(' or ') if res
           true
