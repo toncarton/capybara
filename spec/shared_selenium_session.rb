@@ -155,7 +155,7 @@ RSpec.shared_examples 'Capybara::Session' do |session, mode|
         end
       end
 
-      context  'with Date' do
+      context  'with Date', :focus_ do
         before do
           session.visit('/form')
           session.find(:css, '#form_date').execute_script <<-JS
